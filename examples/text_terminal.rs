@@ -30,7 +30,7 @@ fn draw(mut q_term: Query<&mut Terminal>, mut str_index: Local<usize>, mut posit
     let c = STRS.chars().nth((*str_index % STRS.len()) as usize);
     if let Some(c) = c {
         if Glyph::try_from(c).is_ok() {
-            term.   ([*position % WIDTH, HEIGHT - 1 - *position / WIDTH], c);
+            term.put_char([*position % WIDTH, HEIGHT - 1 - *position / WIDTH], c);
         };
     }
 
