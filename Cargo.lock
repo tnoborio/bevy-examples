@@ -307,6 +307,7 @@ name = "bevy-examples"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "bevy_ascii_terminal",
  "rand 0.9.2",
 ]
 
@@ -378,6 +379,21 @@ dependencies = [
  "variadics_please",
  "wasm-bindgen",
  "web-sys",
+]
+
+[[package]]
+name = "bevy_ascii_terminal"
+version = "0.17.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "81d462941d872726e343195f3e96acc1525f178289ffa153834d965f33244a0a"
+dependencies = [
+ "bevy",
+ "bevy_platform",
+ "byteorder",
+ "enum-ordinalize",
+ "flate2",
+ "sark_grids",
+ "thiserror 1.0.69",
 ]
 
 [[package]]
@@ -1895,6 +1911,26 @@ name = "encase_derive_impl"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f97b51c5cc57ef7c5f7a0c57c250251c49ee4c28f819f87ac32f4aceabc36792"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "enum-ordinalize"
+version = "4.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fea0dcfa4e54eeb516fe454635a95753ddd39acda650ce703031c6973e315dd5"
+dependencies = [
+ "enum-ordinalize-derive",
+]
+
+[[package]]
+name = "enum-ordinalize-derive"
+version = "4.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d28318a75d4aead5c4db25382e8ef717932d0346600cacae6357eb5941bc5ff"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3702,6 +3738,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
+]
+
+[[package]]
+name = "sark_grids"
+version = "0.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c1b32fbf93dd07e468db2b9ea8acd3f16b4f915c6107605abd84bd05b59eaf5d"
+dependencies = [
+ "bit-vec 0.6.3",
+ "enum-ordinalize",
+ "fixedbitset",
+ "glam",
 ]
 
 [[package]]
