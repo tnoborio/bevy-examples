@@ -36,31 +36,31 @@ fn enter_a(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
-    commands.spawn((Transform::default(), ARoot)).with_children(|p| {
-        let mut r = rand::rng();
-        for _n in 1..25 {
-            let circle = meshes.add(Circle::new(80.0));
-            p.spawn((
-                Mesh2d(circle),
-                MeshMaterial2d(materials.add(Color::srgba(
-                    r.random_range(0.0..1.0),
-                    r.random_range(0.0..1.0),
-                    r.random_range(0.0..1.0),
-                    0.5,
-                ))),
-                Transform::from_xyz(
-                    r.random_range(-240.0..240.0),
-                    r.random_range(-240.0..240.0),
-                    r.random_range(-240.0..240.0),
-                ),
-            ));
-        }
-    });
+    commands
+        .spawn((Transform::default(), ARoot))
+        .with_children(|p| {
+            let mut r = rand::rng();
+            for _n in 1..25 {
+                let circle = meshes.add(Circle::new(80.0));
+                p.spawn((
+                    Mesh2d(circle),
+                    MeshMaterial2d(materials.add(Color::srgba(
+                        r.random_range(0.0..1.0),
+                        r.random_range(0.0..1.0),
+                        r.random_range(0.0..1.0),
+                        0.5,
+                    ))),
+                    Transform::from_xyz(
+                        r.random_range(-240.0..240.0),
+                        r.random_range(-240.0..240.0),
+                        r.random_range(-240.0..240.0),
+                    ),
+                ));
+            }
+        });
 }
 
-fn cleanup_a(
-    mut commands: Commands, q: Query<Entity, With<ARoot>>
-) {
+fn cleanup_a(mut commands: Commands, q: Query<Entity, With<ARoot>>) {
     for root in &q {
         commands.entity(root).despawn();
     }
@@ -70,32 +70,35 @@ fn enter_b(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
- ) {
-    commands.spawn((Transform::default(), BRoot)).with_children(|p| {
-        let mut r = rand::rng();
-        for _n in 1..25 {
-            let line = meshes.add(Rectangle::new(300.0, 4.0));
-            p.spawn((
-                Mesh2d(line),
-                MeshMaterial2d(materials.add(Color::srgba(
-                    r.random_range(0.0..1.0),
-                    r.random_range(0.0..1.0),
-                    r.random_range(0.0..1.0),
-                    0.5,
-                ))),
-                Transform::from_xyz(
-                    r.random_range(-240.0..240.0),
-                    r.random_range(-240.0..240.0),
-                    r.random_range(-240.0..240.0),
-                ).with_rotation(Quat::from_rotation_z((r.random_range(0.0f32..180.0f32)).to_radians()))
-            ));
-        }
-    });
+) {
+    commands
+        .spawn((Transform::default(), BRoot))
+        .with_children(|p| {
+            let mut r = rand::rng();
+            for _n in 1..25 {
+                let line = meshes.add(Rectangle::new(300.0, 4.0));
+                p.spawn((
+                    Mesh2d(line),
+                    MeshMaterial2d(materials.add(Color::srgba(
+                        r.random_range(0.0..1.0),
+                        r.random_range(0.0..1.0),
+                        r.random_range(0.0..1.0),
+                        0.5,
+                    ))),
+                    Transform::from_xyz(
+                        r.random_range(-240.0..240.0),
+                        r.random_range(-240.0..240.0),
+                        r.random_range(-240.0..240.0),
+                    )
+                    .with_rotation(Quat::from_rotation_z(
+                        (r.random_range(0.0f32..180.0f32)).to_radians(),
+                    )),
+                ));
+            }
+        });
 }
 
-fn cleanup_b(
-    mut commands: Commands, q: Query<Entity, With<BRoot>>
-) {
+fn cleanup_b(mut commands: Commands, q: Query<Entity, With<BRoot>>) {
     for root in &q {
         commands.entity(root).despawn();
     }
