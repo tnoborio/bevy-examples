@@ -12,7 +12,7 @@ fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
         .add_systems(Startup, setup)
-        .add_systems(Update, advance_seq)
+        .add_systems(Update, animate)
         .run();
 }
 
@@ -92,7 +92,7 @@ fn setup(
     ));
 }
 
-fn advance_seq(
+fn animate(
     time: Res<Time>,
     mut q: Query<(&mut Sprite, &mut AnimationTimer, &mut AnimationIndices)>,
 ) {
