@@ -1,5 +1,5 @@
-use bevy::prelude::*;
 use bevy::math::primitives::{Circle, Rectangle};
+use bevy::prelude::*;
 
 fn main() {
     App::new()
@@ -76,6 +76,6 @@ fn draw(
     commands.spawn((
         Mesh2d(circle_mesh),
         MeshMaterial2d(materials.add(Color::srgb_u8(30, 144, 255))),
-        Transform::from_xyz(circle_center.x, circle_center.y, 0.0)
+        Transform::from_xyz(circle_center.x, circle_center.y, 0.0),
     ));
 }
