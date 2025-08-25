@@ -19,7 +19,7 @@ fn setup_camera(mut commands: Commands) {
     commands.spawn(Camera2d);
 }
 
-// Canvas座標(左上0,0)→World座標(中心0,0,Y上) 変換
+// Canvas座標(左上0,0)→World座標変換
 fn canvas_to_world(p: Vec2) -> Vec2 {
     Vec2::new(p.x - 400.0 * 0.5, 400.0 * 0.5 - p.y)
 }
