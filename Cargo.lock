@@ -308,6 +308,7 @@ version = "0.1.0"
 dependencies = [
  "bevy",
  "bevy_ascii_terminal",
+ "bevy_aspect_ratio_mask",
  "rand 0.9.2",
 ]
 
@@ -394,6 +395,15 @@ dependencies = [
  "flate2",
  "sark_grids",
  "thiserror 1.0.69",
+]
+
+[[package]]
+name = "bevy_aspect_ratio_mask"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "423b3a09e0a15da0e70623db9ab2e89a09d1a0c7cfb440b14a6c0cb2ad61fcba"
+dependencies = [
+ "bevy",
 ]
 
 [[package]]
