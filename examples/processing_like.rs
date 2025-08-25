@@ -54,7 +54,7 @@ fn draw(
     ));
 
     // ===== 四角形 (rect) =====
-    let rect_pos = Vec2::new(100.0, 120.0); // 左上
+    let rect_pos = Vec2::new(100.0, 120.0);
     let rect_size = Vec2::new(120.0, 80.0);
     let rect_center = canvas_to_world(rect_pos + rect_size * 0.5);
 
