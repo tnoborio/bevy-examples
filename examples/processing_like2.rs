@@ -1,5 +1,5 @@
-use bevy::render::mesh::{Indices, PrimitiveTopology};
 use bevy::prelude::*;
+use bevy::render::mesh::{Indices, PrimitiveTopology};
 use rand::Rng;
 use std::cell::RefCell;
 use std::sync::mpsc::{Receiver, Sender, channel};
@@ -221,16 +221,24 @@ fn user_sketch() {
     line(0.0, 0.0, 200.0, 200.0, Color::linear_rgb(1.0, 0.0, 0.0));
     rect(100.0, 100.0, 150.0, 100.0, Color::linear_rgb(1.0, 1.0, 0.0));
     ellipse(300.0, 250.0, 150.0, 250.0, Color::linear_rgb(1.0, 0.0, 1.0));
-    triangle(100.0, 250.0, 50.0, 350.0, 300.0, 350.0, Color::linear_rgb(1.0, 0.5, 0.0));
+    triangle(
+        100.0,
+        250.0,
+        50.0,
+        350.0,
+        300.0,
+        350.0,
+        Color::linear_rgb(1.0, 0.5, 0.0),
+    );
 
     for _n in 0..11 {
         let mut r = rand::rng();
-        let x1 = r.random_range(0.0..CANVAS_W);
-        let y1 = r.random_range(0.0..CANVAS_H);
-        let x2 = r.random_range(0.0..CANVAS_W);
-        let y2 = r.random_range(0.0..CANVAS_H);
+        let x1 = r.random_range(0.0..400.0);
+        let y1 = r.random_range(0.0..400.0);
+        let x2 = r.random_range(0.0..400.0);
+        let y2 = r.random_range(0.0..400.0);
         line(x1, y1, x2, y2, random_color());
-    };
+    }
 }
 
 fn main() {
