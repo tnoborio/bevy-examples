@@ -21,7 +21,10 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
         .add_systems(Startup, (camera, spawn_world))
-        .add_systems(Update, spawn_ball.run_if(on_timer(Duration::from_millis(40))))
+        .add_systems(
+            Update,
+            spawn_ball.run_if(on_timer(Duration::from_millis(40))),
+        )
         .run();
 }
 
@@ -50,28 +53,32 @@ fn spawn_ball(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
-        let ball_mesh = Mesh::from(Circle::new(BALL_R));
-        let mut r = rand::rng();
-        let x = r.random_range(-20.0..20.0);
-        let color = Color::srgb(r.random::<f32>() * 0.3 + 0.7, r.random::<f32>() * 0.3 + 0.7, 1.0);
+    let ball_mesh = Mesh::from(Circle::new(BALL_R));
+    let mut r = rand::rng();
+    let x = r.random_range(-20.0..20.0);
+    let color = Color::srgb(
+        r.random::<f32>() * 0.3 + 0.7,
+        r.random::<f32>() * 0.3 + 0.7,
+        1.0,
+    );
 
-        commands.spawn((
-            Mesh2d(meshes.add(ball_mesh).into()),
-            MeshMaterial2d(materials.add(color)),
-            Transform::from_xyz(x, BALL_START_Y, 0.1),
-            RigidBody::Dynamic,
-            Collider::ball(BALL_R),
-            Friction {
-                coefficient: 0.9,
-                combine_rule: CoefficientCombineRule::Min,
-            },
-            Restitution {
-                coefficient: 0.4,
-                combine_rule: CoefficientCombineRule::Max,
-            },
-            Damping {
-                linear_damping: 0.01,
-                angular_damping: 0.05,
-            },
-        ));
-    }
+    commands.spawn((
+        Mesh2d(meshes.add(ball_mesh).into()),
+        MeshMaterial2d(materials.add(color)),
+        Transform::from_xyz(x, BALL_START_Y, 0.1),
+        RigidBody::Dynamic,
+        Collider::ball(BALL_R),
+        Friction {
+            coefficient: 0.9,
+            combine_rule: CoefficientCombineRule::Min,
+        },
+        Restitution {
+            coefficient: 0.4,
+            combine_rule: CoefficientCombineRule::Max,
+        },
+        Damping {
+            linear_damping: 0.01,
+            angular_damping: 0.05,
+        },
+    ));
+}
