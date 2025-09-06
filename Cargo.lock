@@ -316,6 +316,7 @@ dependencies = [
  "bevy_ascii_terminal",
  "bevy_aspect_ratio_mask",
  "bevy_rapier2d",
+ "eff-wordlist",
  "rand 0.9.2",
 ]
 
@@ -1908,6 +1909,15 @@ name = "dpi"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d8b14ccef22fc6f5a8f4d7d768562a182c04ce9a3b3157b91390b52ddfdf1a76"
+
+[[package]]
+name = "eff-wordlist"
+version = "1.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cd8bc86f92f53c5f70e170794b075ecf275126dfcea3c814a4dbf3bbcbb0612b"
+dependencies = [
+ "rand 0.8.5",
+]
 
 [[package]]
 name = "either"
