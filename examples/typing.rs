@@ -93,12 +93,10 @@ fn start_word(game: &mut State) {
 }
 
 fn tick_timer(time: Res<Time>, mut game: ResMut<State>) {
-    if game.running {
-        game.time_left -= time.delta().as_secs_f32();
-        if game.time_left <= 0.0 {
-            game.time_left = 0.0;
-            game.running = false;
-        }
+    game.time_left -= time.delta().as_secs_f32();
+    if game.time_left <= 0.0 {
+        game.time_left = 0.0;
+        game.running = false;
     }
 }
 
