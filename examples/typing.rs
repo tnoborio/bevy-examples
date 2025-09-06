@@ -1,7 +1,6 @@
 use bevy::input::keyboard::Key::Character;
 use bevy::{input::keyboard::KeyboardInput, prelude::*};
 use bevy_ascii_terminal::{Terminal, TerminalBorder, TerminalCamera, TerminalPlugins, color};
-use eff_wordlist::*;
 
 const WIDTH: usize = 40;
 const HEIGHT: usize = 7;
@@ -14,6 +13,34 @@ struct State {
     score: u32,
     time_left: f32,
     running: bool,
+}
+
+impl State {
+    fn new() -> Self {
+        let mut state = Self {
+            target: String::new(),
+            input: String::new(),
+            score: 0,
+            time_left: 0.0,
+            running: false,
+        };
+        state.start();
+        state
+    }
+
+    fn start(&mut self) {
+        self.score = 0;
+        self.time_left = GAME_SECONDS;
+        self.input.clear();
+        self.target = eff_wordlist::large::random_word().to_string();
+        self.running = true;
+    }
+
+    fn next_target(&mut self) {
+        self.score += 1;
+        self.input.clear();
+        self.target = eff_wordlist::large::random_word().to_string();
+    }
 }
 
 fn main() {
@@ -38,16 +65,10 @@ fn setup(mut commands: Commands) {
     ));
     commands.spawn(TerminalCamera::new());
 
-    commands.insert_resource(State {
-        target: large::random_word().to_string(),
-        input: String::new(),
-        score: 0,
-        time_left: GAME_SECONDS,
-        running: true,
-    });
+    commands.insert_resource(State::new());
 }
 
-fn input(mut key_events: EventReader<KeyboardInput>, mut game: ResMut<State>) {
+fn input(mut key_events: EventReader<KeyboardInput>, mut state: ResMut<State>) {
     for key in key_events.read() {
         if key.state != bevy::input::ButtonState::Pressed {
             continue;
@@ -55,87 +76,68 @@ fn input(mut key_events: EventReader<KeyboardInput>, mut game: ResMut<State>) {
 
         match key.key_code {
             KeyCode::Backspace => {
-                game.input.pop();
-            }
-            KeyCode::Enter => {
-                if game.input == game.target {
-                    next_word(&mut game);
-                }
+                state.input.pop();
             }
             _ => {
                 if let Character(ch) = &key.logical_key {
                     let ch = ch.chars().next().unwrap();
-                    if ch.is_ascii_alphanumeric() || ch == ' ' || ch == '-' {
-                        game.input.push(ch.to_ascii_lowercase());
+                    if ch.is_ascii_alphanumeric() {
+                        state.input.push(ch.to_ascii_lowercase());
                     }
                 }
             }
         }
     }
 
-    if game.input == game.target {
-        next_word(&mut game);
+    if state.input == state.target {
+        state.next_target();
     }
 }
 
-fn next_word(game: &mut State) {
-    game.score += 1;
-    game.input.clear();
-    game.target = eff_wordlist::large::random_word().to_string();
-}
-
-fn start_word(game: &mut State) {
-    game.score = 0;
-    game.time_left = GAME_SECONDS;
-    game.input.clear();
-    game.target = eff_wordlist::large::random_word().to_string();
-    game.running = true;
-}
-
-fn tick_timer(time: Res<Time>, mut game: ResMut<State>) {
-    game.time_left -= time.delta().as_secs_f32();
-    if game.time_left <= 0.0 {
-        game.time_left = 0.0;
-        game.running = false;
+fn tick_timer(time: Res<Time>, mut state: ResMut<State>) {
+    state.time_left -= time.delta().as_secs_f32();
+    if state.time_left <= 0.0 {
+        state.time_left = 0.0;
+        state.running = false;
     }
 }
 
-fn draw(mut q_term: Query<&mut Terminal>, game: Res<State>) {
+fn draw(mut q_term: Query<&mut Terminal>, state: Res<State>) {
     let mut term = q_term.single_mut().unwrap();
     term.clear();
 
-    term.put_string([1, 1], format!("SCORE {:03}", game.score));
+    term.put_string([1, 1], format!("SCORE {:03}", state.score));
     term.put_string(
         [WIDTH as i32 - 8, 1],
-        format!("TIME {:02}", game.time_left.ceil() as i32),
+        format!("TIME {:02}", state.time_left.ceil() as i32),
     );
 
     term.put_string([1, 3], "WORD:");
-    term.put_string([7, 3], game.target.as_str());
+    term.put_string([7, 3], state.target.as_str());
 
     term.put_string([1, 5], "TYPE:");
-    for (i, ch) in game.input.chars().enumerate() {
+    for (i, ch) in state.input.chars().enumerate() {
         let x = 7 + i as i32;
-        let is_ok = game.target.chars().nth(i).map(|t| t == ch).unwrap_or(false);
+        let is_ok = state.target.chars().nth(i).map(|t| t == ch).unwrap_or(false);
         let col = if is_ok { color::GREEN } else { color::RED };
 
         term.put_char([x, 1], ch).fg(col);
     }
 }
 
-fn input_pause(mut key_events: EventReader<KeyboardInput>, mut game: ResMut<State>) {
+fn input_pause(mut key_events: EventReader<KeyboardInput>, mut state: ResMut<State>) {
     for key in key_events.read() {
         if key.state == bevy::input::ButtonState::Released && key.key_code == KeyCode::KeyR {
-            start_word(&mut game);
+            state.start();
         }
     }
 }
 
-fn draw_pause(mut q_term: Query<&mut Terminal>, game: Res<State>) {
+fn draw_pause(mut q_term: Query<&mut Terminal>, state: Res<State>) {
     let mut term = q_term.single_mut().unwrap();
     term.clear();
 
-    term.put_string([1, 1], format!("SCORE {:03}", game.score));
+    term.put_string([1, 1], format!("SCORE {:03}", state.score));
 
     let msg = "*** TIME UP ***".to_string();
     let hint = "Press R to restart";
