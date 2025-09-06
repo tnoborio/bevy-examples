@@ -1,8 +1,6 @@
 use bevy::input::keyboard::Key::Character;
 use bevy::{input::keyboard::KeyboardInput, prelude::*};
-use bevy_ascii_terminal::{
-    Terminal, TerminalBorder, TerminalCamera, TerminalPlugins, color,
-};
+use bevy_ascii_terminal::{Terminal, TerminalBorder, TerminalCamera, TerminalPlugins, color};
 use eff_wordlist::*;
 
 const WIDTH: usize = 40;
